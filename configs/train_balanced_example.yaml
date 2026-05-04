@@ -1,0 +1,51 @@
+experiment: train_ddpm
+run_name: balanced_cifar10
+output_root: results
+seed: 123
+device: auto
+
+data:
+  root: data
+  download: true
+  download_retries: 3
+  retry_sleep_seconds: 5.0
+  num_workers: 16
+  batch_size: 384
+  class_counts: balanced
+
+diffusion:
+  timesteps: 1000
+  beta_schedule: cosine
+
+model:
+  in_channels: 3
+  base_channels: 96
+  channel_multipliers: [1, 2, 2, 4]
+  num_res_blocks: 2
+  dropout: 0.1
+  num_classes: 10
+
+train:
+  epochs: 1000
+  max_steps: 50000
+  lr: 0.0003
+  weight_decay: 0.0
+  ema_decay: 0.999
+  grad_clip: 1.0
+  amp: true
+  log_every: 100
+  save_every_steps: 5000
+  save_every_epochs: 1000
+
+diagnostics:
+  time_bins: 20
+  class_names: [airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck]
+
+sampling:
+  enabled: true
+  every_steps: 5000
+  num_per_class: 8
+  sampler: ddim
+  model: both
+  steps: 100
+  eta: 0.0
