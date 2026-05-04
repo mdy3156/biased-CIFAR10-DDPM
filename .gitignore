@@ -3,7 +3,9 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
-data/
+/data/
+!/src/data/
+!/src/data/**
 results/
 checkpoints/
 runs/
